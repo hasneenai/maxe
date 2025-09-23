@@ -2729,8 +2729,7 @@ video:-webkit-full-screen ~ .custom-controls.show {
     
     
     
-    
-    // Performance optimizations
+// Performance optimizations
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -3044,7 +3043,7 @@ function showSubjects(data) {
 function getUniqueSubjects(teachers) {
     const subjects = teachers.map(teacher => {
         // Remove "مدرس مادة" prefix to show only the subject name
-        return teacher.subject.replace(/^مدرس مادة\s+/, '');
+        return teacher.subject.replace(/^مدرس مادة\\s+/, '');
     });
     return [...new Set(subjects)];
 }
@@ -3053,7 +3052,7 @@ function getTotalLecturesForSubject(teachers, subject) {
     return teachers
         .filter(teacher => {
             // Match both full subject name and cleaned subject name
-            const cleanedSubject = teacher.subject.replace(/^مدرس مادة\s+/, '');
+            const cleanedSubject = teacher.subject.replace(/^مدرس مادة\\s+/, '');
             return teacher.subject === subject || cleanedSubject === subject;
         })
         .reduce((total, teacher) => {
@@ -3065,7 +3064,7 @@ function getTotalLecturesForSubject(teachers, subject) {
 
 function getSubjectIcon(subject) {
     // Clean subject name and match icons
-    const cleanSubject = subject.replace(/^مدرس مادة\s+/, '');
+    const cleanSubject = subject.replace(/^مدرس مادة\\s+/, '');
 
     const icons = {
         'التربية الاسلامية': 'fas fa-mosque',
@@ -3088,7 +3087,7 @@ function showTeachers(subject, data) {
 
     const teachers = data.teachers.filter(teacher => {
         // Match both full subject name and cleaned subject name
-        const cleanedSubject = teacher.subject.replace(/^مدرس مادة\s+/, '');
+        const cleanedSubject = teacher.subject.replace(/^مدرس مادة\\s+/, '');
         return teacher.subject === subject || cleanedSubject === subject;
     });
     const container = document.getElementById('teachers-container');
@@ -3144,7 +3143,7 @@ function showTeachers(subject, data) {
     updateBreadcrumb([
         { text: 'الرئيسية', onclick: () => showHome() },
         { text: `محاضرات ${currentYear}`, onclick: () => showSubjects(data) },
-        { text: subject.replace(/^مدرس مادة\s+/, '') }
+        { text: subject.replace(/^مدرس مادة\\s+/, '') }
     ]);
 }
 
@@ -3234,7 +3233,7 @@ function showClasses(teacher, data) {
     updateBreadcrumb([
         { text: 'الرئيسية', onclick: () => showHome() },
         { text: `محاضرات ${currentYear}`, onclick: () => showSubjects(data) },
-        { text: currentSubject.replace(/^مدرس مادة\s+/, ''), onclick: () => showTeachers(currentSubject, data) },
+        { text: currentSubject.replace(/^مدرس مادة\\s+/, ''), onclick: () => showTeachers(currentSubject, data) },
         { text: teacher.name }
     ]);
 }
@@ -3298,7 +3297,7 @@ function showLectures(teacher, className, data) {
     updateBreadcrumb([
         { text: 'الرئيسية', onclick: () => showHome() },
         { text: `محاضرات ${currentYear}`, onclick: () => showSubjects(data) },
-        { text: currentSubject.replace(/^مدرس مادة\s+/, ''), onclick: () => showTeachers(currentSubject, data) },
+        { text: currentSubject.replace(/^مدرس مادة\\s+/, ''), onclick: () => showTeachers(currentSubject, data) },
         { text: teacher.name, onclick: () => showClasses(teacher, data) },
         { text: className }
     ]);
@@ -3306,7 +3305,7 @@ function showLectures(teacher, className, data) {
 
 // Generate unique lecture ID
 function generateLectureId(teacherId, className, lectureTitle) {
-    return `${teacherId}-${className}-${lectureTitle}`.replace(/\s+/g, '-');
+    return `${teacherId}-${className}-${lectureTitle}`.replace(/\\s+/g, '-');
 }
 
 // Generate unique key for video progress
@@ -3321,7 +3320,7 @@ function generateUniqueKey(url) {
     return Math.abs(hash).toString();
 }
 
-// Update lecture status function
+
 function updateLectureStatus(lectureKey, isCompleted) {
     if (isCompleted) {
         localStorage.setItem(lectureKey, 'completed');
