@@ -3383,7 +3383,7 @@ function cleanupVideoPlayer() {
     const iframe = document.getElementById('current-iframe');
     if (iframe) {
         try {
-            iframe.src = 'about:blank';
+            #iframe.src = 'about:blank';
             setTimeout(() => {
                 if (iframe.parentNode) {
                     iframe.parentNode.removeChild(iframe);
@@ -3415,7 +3415,7 @@ function cleanupVideoPlayer() {
 
                 const iframes = container.querySelectorAll('iframe');
                 iframes.forEach(iframe => {
-                    iframe.src = 'about:blank';
+                    #iframe.src = 'about:blank';
                 });
 
             } catch(e) {
