@@ -3383,7 +3383,7 @@ function cleanupVideoPlayer() {
     const iframe = document.getElementById('current-iframe');
     if (iframe) {
         try {
-            #iframe.src = 'about:blank';
+            iframe.src = 'about:blank';
             setTimeout(() => {
                 if (iframe.parentNode) {
                     iframe.parentNode.removeChild(iframe);
@@ -3415,7 +3415,7 @@ function cleanupVideoPlayer() {
 
                 const iframes = container.querySelectorAll('iframe');
                 iframes.forEach(iframe => {
-                    #iframe.src = 'about:blank';
+                    iframe.src = 'about:blank';
                 });
 
             } catch(e) {
@@ -4268,105 +4268,6 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-
-(function () {
-          let detected = false;
-
-          function triggerSecurity() {
-                if (detected) return;
-                detected = true;
-
-                document.documentElement.innerHTML = '';
-                alert("🚨 تم اكتشاف محاولة فحص، وتم تسجيل عنوان IP الخاص بك.");
-
-                fetch('/api/log-inspect', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                        time: new Date().toISOString(),
-                        userAgent: navigator.userAgent,
-                        username: localStorage.getItem('username') || 'غير معروف'
-                  })
-                });
-
-                setTimeout(() => location.href = "/", 1000);
-          }
-
-          // كشف فتح DevTools عبر console.log + Object.defineProperty
-          const el = new Image();
-          Object.defineProperty(el, 'id', {
-                get: function () {
-                  triggerSecurity();
-                }
-          });
-          console.log('%c🚫 لا تحاول العبث بالكود!', 'font-size:100px;', el);
-
-          // كشف DevTools بـ new Function بدل debugger فقط
-          function detectDebuggerDelay() {
-                const start = performance.now();
-                new Function("debugger")(); // bypass Disable Breakpoints
-                const duration = performance.now() - start;
-                if (duration > 100) {
-                  triggerSecurity();
-                }
-          }
-
-          function detectWindowResize() {
-  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (isIOS) return;
-
-  const widthDiff = window.outerWidth - window.innerWidth;
-  const heightDiff = window.outerHeight - window.innerHeight;
-
-  const maxAllowedDiff = 1000;
-  const minSuspiciousDiff = 160;
-
-  if ((widthDiff > minSuspiciousDiff && widthDiff < maxAllowedDiff) ||
-      (heightDiff > minSuspiciousDiff && heightDiff < maxAllowedDiff)) {
-    triggerSecurity();
-  }
-}
-
-          // تكرار الفحص كل ثانية
-          setInterval(() => {
-                detectDebuggerDelay();
-                detectWindowResize();
-          }, 1000);
-
-          // منع جميع الاختصارات الحساسة
-          document.addEventListener("keydown", function (e) {
-                const combo = `${e.ctrlKey ? "CTRL+" : ""}${e.shiftKey ? "SHIFT+" : ""}${e.key.toUpperCase()}`;
-                const forbidden = [
-                  "F12",
-                  "CTRL+SHIFT+I",
-                  "CTRL+SHIFT+C",
-                  "CTRL+SHIFT+J",
-                  "CTRL+U",
-                  "CTRL+S",
-                  "CTRL+A",
-                  "CTRL+C",
-                  "CTRL+P",
-                  "CTRL+E",
-                  "CTRL+SHIFT+E",
-                  "CTRL+SHIFT+K"
-                ];
-                if (forbidden.includes(combo)) {
-                  e.preventDefault();
-                  triggerSecurity();
-                }
-          });
-
-          // منع الزر الأيمن
-          document.addEventListener("contextmenu", function (e) {
-                e.preventDefault();
-          });
-
-          // منع السحب والتحديد
-          document.addEventListener("selectstart", e => e.preventDefault());
-          document.addEventListener("dragstart", e => e.preventDefault());
-
-        })();
 
     
     </script>
