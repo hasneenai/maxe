@@ -1,5 +1,4 @@
-var teacherData2025 = {
-    teachers: [
+"teachers": [
         {
                     "id": 1740790303973,
                     "name": "حيدر عبدالائمة 2025",
@@ -17128,4 +17127,3 @@ var teacherData2025 = {
                     ]
                 }
             ]
-        }
